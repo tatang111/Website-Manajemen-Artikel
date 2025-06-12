@@ -1,6 +1,6 @@
 "use client"
 
-import { Loader, Loader2, Search } from "lucide-react"
+import { Loader2, Search } from "lucide-react"
 import { NavbarAdmin } from "./NavbarAdmin"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
@@ -19,7 +19,7 @@ import Link from "next/link"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { toast } from "sonner"
-
+import Image from "next/image"
 
 const queryClient = new QueryClient()
 export const ArticleAdmin = ({ children }) => {
@@ -71,7 +71,6 @@ export const ArticleAdmin = ({ children }) => {
     }))
     const uniqCategories = _.uniqBy(dataCategories, "id")
 
-
     useEffect(() => {
         setCategories(uniqCategories)
     }, [articleCategory])
@@ -111,20 +110,21 @@ export const ArticleAdmin = ({ children }) => {
     const pageToShow = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
 
     if (error) return <p>{error.message}</p>
+    
     return (
         <div className="w-full">
             {children}
             <div className="">
                 <NavbarAdmin />
                 {isCreate ? <CreateArticle setIsCreate={setIsCreate} /> :
-                    <main className="pt-6 px-6 pb-6 bg-gray-100 min-h-screen ">
-                        <div className="flex flex-col ">
-                            <div className="bg-gray-50 p-6 rounded-t-lg">
-                                <h2 className="text-base font-[500]">Total Articles : {articleCategory?.data.length}</h2>
+                    <main className="pt-6 px-4 sm:px-6 pb-6 bg-gray-100 min-h-screen">
+                        <div className="flex flex-col">
+                            <div className="bg-gray-50 p-4 sm:p-6 rounded-t-lg">
+                                <h2 className="text-sm sm:text-base font-[500]">Total Articles: {articleCategory?.data.length}</h2>
                             </div>
                             <div className="border-b border-gray-200" />
-                            <div className="flex p-6 bg-gray-50 rounded-b-lg justify-between ">
-                                <div className="flex gap-2">
+                            <div className="flex flex-col sm:flex-row gap-4 p-4 sm:p-6 bg-gray-50 rounded-b-lg justify-between">
+                                <div className="flex flex-col sm:flex-row gap-2 w-full">
                                     <Select value={category} onValueChange={value => {
                                         setCategory(value)
                                         const params = new URLSearchParams(searchParams.toString());
@@ -132,7 +132,7 @@ export const ArticleAdmin = ({ children }) => {
                                         params.set("page", "1");
                                         router.push(`?${params.toString()}`);
                                     }}>
-                                        <SelectTrigger className="w-[250px] bg-white text-black">
+                                        <SelectTrigger className="w-full sm:w-[250px] bg-white text-black">
                                             <SelectValue placeholder="Select category" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -145,77 +145,132 @@ export const ArticleAdmin = ({ children }) => {
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                    <div className="relative">
+                                    <div className="relative w-full">
                                         <Search className="absolute top-1.5 text-gray-500 left-2" />
-                                        <Input name="search" value={searchValue} onChange={e => setSearchValue(e.target.value)} className="pl-10" placeholder="Search by title" />
+                                        <Input 
+                                            name="search" 
+                                            value={searchValue} 
+                                            onChange={e => setSearchValue(e.target.value)} 
+                                            className="pl-10 w-full" 
+                                            placeholder="Search by title" 
+                                        />
                                     </div>
                                 </div>
-                                <Button onClick={() => setIsCreate(true)} className="bg-blue-600 hover:bg-blue-700 cursor-pointer">+ Add Articles</Button>
+                                <Button 
+                                    onClick={() => setIsCreate(true)} 
+                                    className="bg-blue-600 hover:bg-blue-700 cursor-pointer w-full sm:w-auto mt-2 sm:mt-0"
+                                >
+                                    + Add Articles
+                                </Button>
                             </div>
-                            {isLoading ?
-                                <Loader2 className="text-2xl mt-5 ml-40" />
-                                :
-                                <Table>
-                                    <TableHeader >
-                                        <TableRow>
-                                            <TableHead className="text-center">Thumbnails</TableHead>
-                                            <TableHead className="text-center">Title</TableHead>
-                                            <TableHead className="text-center">Category</TableHead>
-                                            <TableHead className="text-center">Created at</TableHead>
-                                            <TableHead className="text-center">Action</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody className="bg-gray-50 rounded-lg">
-                                        {data?.data.map(article => (
-                                            <TableRow key={article.id} className="bg-gray-50">
-                                                <TableCell><img className="w-15 h-15 m-auto rounded-lg" src={article.imageUrl || "/images/article3.jpg"} /></TableCell>
-                                                <TableCell className="text-center">{article.title}</TableCell>
-                                                <TableCell className="text-center">{article.category.name}</TableCell>
-                                                <TableCell className="text-center">{dayjs(article.createdAt).format("MMMM D, YYYY HH:mm:ss")}</TableCell>
-                                                <TableCell className="text-center">
-                                                    <Link href={`/preview/${article.id}`}>
-                                                        <Button variant="link" className="-mr-6 underline text-blue-600 cursor-pointer">Preview</Button>
-                                                    </Link>
-                                                    <Link href={`/edit/${article.id}`}>
-                                                        <Button variant="link" className="underline text-blue-600 cursor-pointer">Edit</Button>
-                                                    </Link>
-                                                    <Dialog>
-                                                        <DialogTrigger asChild>
-                                                            <Button variant="link" className="-ml-6 underline text-red-600 cursor-pointer">Delete</Button>
-                                                        </DialogTrigger>
-                                                        <DialogContent className="w-100 flex flex-col gap-10">
-                                                            <DialogHeader>
-                                                                <DialogTitle>Delete Article</DialogTitle>
-                                                                <DialogDescription>
-                                                                    Deleting this article is permanent and cannot be undone. All related content will be removed.
-                                                                </DialogDescription>
-                                                            </DialogHeader>
-                                                            <DialogFooter className="flex justify-center items-center">
-                                                                <DialogClose asChild>
-                                                                    <Button ref={dialogRef} variant="outline" disabled={article.id === deletingId} className="cursor-pointer">Cancel</Button>
-                                                                </DialogClose>
-                                                                <Button variant="destructive" disabled={article.id === deletingId} onClick={() => handleDeleteArticle(article.id)} className=" cursor-pointer w-18 ">{isPending ? <Loader2 className="animate-spin w-4 h-4" /> : "Delete"}</Button>
-                                                            </DialogFooter>
-                                                        </DialogContent>
-                                                    </Dialog>
-                                                </TableCell>
+                            {isLoading ? (
+                                <div className="flex justify-center mt-5">
+                                    <Loader2 className="text-2xl animate-spin" />
+                                </div>
+                            ) : (
+                                <div className="overflow-x-auto">
+                                    <Table className="min-w-full">
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead className="text-center px-2 sm:px-4">Thumbnails</TableHead>
+                                                <TableHead className="text-center px-2 sm:px-4">Title</TableHead>
+                                                <TableHead className="text-center px-2 sm:px-4 hidden sm:table-cell">Category</TableHead>
+                                                <TableHead className="text-center px-2 sm:px-4 hidden md:table-cell">Created at</TableHead>
+                                                <TableHead className="text-center px-2 sm:px-4">Action</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            }
+                                        </TableHeader>
+                                        <TableBody className="bg-gray-50">
+                                            {data?.data.map(article => (
+                                                <TableRow key={article.id} className="bg-gray-50">
+                                                    <TableCell className="px-2 sm:px-4">
+                                                        <div className="flex justify-center">
+                                                            <Image  
+                                                                className="w-12 h-12 sm:w-15 sm:h-15 rounded-lg" 
+                                                                src={article.imageUrl || "/images/article3.jpg"} 
+                                                                width={100} height={100} alt="Logo"
+                                                            />
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="text-center px-2 sm:px-4 text-sm sm:text-base">
+                                                        {article.title.length > 30 ? `${article.title.substring(0, 30)}...` : article.title}
+                                                    </TableCell>
+                                                    <TableCell className="text-center px-2 sm:px-4 hidden sm:table-cell">
+                                                        {article.category.name}
+                                                    </TableCell>
+                                                    <TableCell className="text-center px-2 sm:px-4 hidden md:table-cell">
+                                                        {dayjs(article.createdAt).format("MMM D, YYYY")}
+                                                    </TableCell>
+                                                    <TableCell className="text-center px-2 sm:px-4">
+                                                        <div className="flex flex-col sm:flex-row gap-1 justify-center items-center">
+                                                            <Link href={`/preview/${article.id}`} className="w-full sm:w-auto">
+                                                                <Button variant="link" className="text-blue-600 cursor-pointer p-0 sm:px-4 text-xs sm:text-sm">
+                                                                    Preview
+                                                                </Button>
+                                                            </Link>
+                                                            <Link href={`/edit/${article.id}`} className="w-full sm:w-auto">
+                                                                <Button variant="link" className="text-blue-600 cursor-pointer p-0 sm:px-4 text-xs sm:text-sm">
+                                                                    Edit
+                                                                </Button>
+                                                            </Link>
+                                                            <Dialog>
+                                                                <DialogTrigger asChild className="w-full sm:w-auto">
+                                                                    <Button 
+                                                                        variant="link" 
+                                                                        className="text-red-600 cursor-pointer p-0 sm:px-4 text-xs sm:text-sm"
+                                                                    >
+                                                                        Delete
+                                                                    </Button>
+                                                                </DialogTrigger>
+                                                                <DialogContent className="sm:max-w-md">
+                                                                    <DialogHeader>
+                                                                        <DialogTitle>Delete Article</DialogTitle>
+                                                                        <DialogDescription>
+                                                                            Deleting this article is permanent and cannot be undone. All related content will be removed.
+                                                                        </DialogDescription>
+                                                                    </DialogHeader>
+                                                                    <DialogFooter className="flex flex-col sm:flex-row gap-2 justify-center items-center">
+                                                                        <DialogClose asChild>
+                                                                            <Button 
+                                                                                ref={dialogRef} 
+                                                                                variant="outline" 
+                                                                                disabled={article.id === deletingId} 
+                                                                                className="w-full sm:w-auto"
+                                                                            >
+                                                                                Cancel
+                                                                            </Button>
+                                                                        </DialogClose>
+                                                                        <Button 
+                                                                            variant="destructive" 
+                                                                            disabled={article.id === deletingId} 
+                                                                            onClick={() => handleDeleteArticle(article.id)} 
+                                                                            className="w-full sm:w-auto"
+                                                                        >
+                                                                            {isPending ? <Loader2 className="animate-spin w-4 h-4" /> : "Delete"}
+                                                                        </Button>
+                                                                    </DialogFooter>
+                                                                </DialogContent>
+                                                            </Dialog>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                            )}
                         </div>
                         <Pagination className="py-3 bg-gray-50">
                             <PaginationContent>
-                                <PaginationItem className="md:hidden">
-                                    <PaginationPrevious href={`?page=${Math.max(page - 1, 1)}`}
+                                <PaginationItem>
+                                    <PaginationPrevious 
+                                        href={`?page=${Math.max(page - 1, 1)}`}
                                         onClick={e => {
                                             e.preventDefault();
                                             const params = new URLSearchParams(searchParams.toString());
                                             params.set("page", Math.max(page - 1, 1))
                                             router.push(`?${params.toString()}`)
-                                        }
-                                        } />
+                                        }}
+                                    />
                                 </PaginationItem>
                                 {pageToShow.map(p => (
                                     <PaginationItem key={p}>
@@ -233,8 +288,9 @@ export const ArticleAdmin = ({ children }) => {
                                         </PaginationLink>
                                     </PaginationItem>
                                 ))}
-                                <PaginationItem className="md:hidden">
-                                    <PaginationNext href={`?page=${Math.min(page + 1, totalPages)}`}
+                                <PaginationItem>
+                                    <PaginationNext 
+                                        href={`?page=${Math.min(page + 1, totalPages)}`}
                                         onClick={e => {
                                             e.preventDefault();
                                             const params = new URLSearchParams(searchParams.toString());
@@ -245,7 +301,8 @@ export const ArticleAdmin = ({ children }) => {
                                 </PaginationItem>
                             </PaginationContent>
                         </Pagination>
-                    </main>}
+                    </main>
+                }
             </div>
         </div>
     )

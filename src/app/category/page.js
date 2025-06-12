@@ -36,7 +36,7 @@ export default function Category() {
     return (
         <SidebarProvider>
             <AppSidebar />
-            <SidebarTrigger className="block md:hidden" />
+            <SidebarTrigger className="block mt-4 ml-10 md:hidden" />
             <CategoryAdmin />
         </SidebarProvider>
     )

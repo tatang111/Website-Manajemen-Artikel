@@ -15,23 +15,27 @@ export default function Profile() {
     const router = useRouter()
     const [checkAuth, setCheckAuth] = useState(false)
 
-    const {data, isLoading, error} = useQuery({
+    const { data, isLoading, error } = useQuery({
         queryKey: ["profile"],
         queryFn: async () => {
             const response = await axiosInstance(`/auth/profile`)
             return response.data
-        }
+        },
+        retry: false
     })
 
-        useEffect(() => {
-            if (!isAuthenticated()) {
-                redirect("/login")
-            } else {
-                setCheckAuth(true)
-            }
-        }, [])
+    useEffect(() => {
+        if (!isAuthenticated()) {
+            redirect("/login")
+        } else {
+            setCheckAuth(true)
+        }
+    }, [])
 
-        if (!checkAuth) return <p>Checking Authentication...</p>
+    if (!checkAuth) return <p>Checking Authentication...</p>
+    if (isLoading) return <p>Loading profile data...</p>
+    if (error) return <p>Error loading profile: {error.message}</p>
+    if (!data) return <p>No profile data available</p>
 
     return (
         <div className="flex flex-col min-h-screen relative">
@@ -44,7 +48,7 @@ export default function Profile() {
                 <div className="flex flex-col gap-3 justidy-center items-center w-full px-4 py-6">
                     <div className="py-[10px] pl-15 md:w-[368px] px-3 bg-gray-100 rounded-xs flex w-full">
                         <span className=" text-base font-semibold">Username : </span>
-                        <span className="text-center ml-15">{data.username}</span>
+                        <span className="text-center ml-15">{data?.username || "N/A"}</span>
                     </div>
                     <div className="py-[10px] pl-15 md:w-[368px] px-3 bg-gray-100 rounded-xs flex w-full">
                         <span className=" text-base font-semibold">Password : </span>
@@ -52,7 +56,7 @@ export default function Profile() {
                     </div>
                     <div className="py-[10px] pl-15 md:w-[368px] px-3 bg-gray-100 rounded-xs flex w-full">
                         <span className=" text-base font-semibold">Role <span className="ml-9">:</span> </span>
-                        <span className="text-center ml-16">{data.role}</span>
+                        <span className="text-center ml-16">{data?.role || "N/A"}</span>
                     </div>
                 </div>
                 <Button onClick={() => router.push("/article")} className="bg-blue-600 md:w-[368px] hover:bg-blue-700 cursor-pointer text-white rounded-lg w-9/10 -mt-4 py-6">

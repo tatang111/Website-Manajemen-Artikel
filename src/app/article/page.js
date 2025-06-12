@@ -39,7 +39,7 @@ export default function Article() {
                 <SidebarProvider className="m-0 p-0">
                     <AppSidebar />
                     <ArticleAdmin>
-                        <SidebarTrigger className="block md:hidden" />
+                        <SidebarTrigger className="block mt-4 ml-10 md:hidden" />
                     </ArticleAdmin>
                 </SidebarProvider>
             }

@@ -5,6 +5,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Button } from "./ui/button"
 import { useRouter } from "next/navigation"
 import { jwtDecode } from "jwt-decode"
+import Image from "next/image"
 
 export const Navbar = () => {
     const router = useRouter()
@@ -14,8 +15,8 @@ export const Navbar = () => {
             <DropdownMenu className="relative w-full">
                 <DropdownMenuTrigger className="w-full">
                     <div className="flex justify-between w-full items-center">
-                        <img src="/images/image.png" className="h-[22px] w-[122px] md:hidden" />
-                        <img src="/images/imagewhite.png" className="h-[22px] w-[122px] hidden md:block" />
+                        <Image width={100} height={100} alt="Logo" src="/images/image.png" className="h-[22px] w-[122px] md:hidden" />
+                        <Image width={100} height={100} alt="Logo" src="/images/imagewhite.png" className="h-[22px] w-[122px] hidden md:block" />
                         <div className="flex items-center gap-2 justify-center ">
                             <div className="bg-blue-200 rounded-full text-lg w-8 h-8 text-center">J</div>
                             <p className="underline text-white hidden md:block mb-1.5">James Dean</p>

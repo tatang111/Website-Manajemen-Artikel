@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { DropdownMenuItem } from "./ui/dropdown-menu"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
+import Image from "next/image"
 
 export const AppSidebar = () => {
     const pathname = usePathname()
@@ -14,7 +15,7 @@ export const AppSidebar = () => {
 
     return (
         <Sidebar className="text-white">
-            <SidebarHeader className="pl-8 pt-4 bg-blue-600"><img src="/images/imagewhite.png" className="w-[134px] h-6" /></SidebarHeader>
+            <SidebarHeader className="pl-8 pt-4 bg-blue-600"><Image width={100} height={100} alt="Logo" src="/images/imagewhite.png" className="w-[134px] h-6" /></SidebarHeader>
             <SidebarContent className="bg-blue-600">
                 <SidebarGroup>
                     <SidebarGroupContent>

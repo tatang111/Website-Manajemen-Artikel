@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 
 export const ArticleCard = ({ article }) => {
@@ -7,7 +8,7 @@ export const ArticleCard = ({ article }) => {
     return (
         <div className="flex flex-col gap-2 w-full object-center ">
             <Link href={`/detail/${article.id}`} className="h-50">
-                <img src={article?.imageUrl || "/images/article2.jpg"} className="rounded-lg h-50 w-full object-cover " />
+                <Image width={100} height={100} alt="Logo" src={article?.imageUrl || "/images/article2.jpg"} className="rounded-lg h-50 w-full object-cover " />
             </Link>
             <h4 className="font-[400] text-sm">{new Date(article.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",

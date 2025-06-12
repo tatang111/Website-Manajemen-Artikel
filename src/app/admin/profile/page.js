@@ -44,7 +44,7 @@ export default function Profile() {
                 <div className="flex flex-col gap-3 justidy-center items-center w-full px-4 py-6">
                     <div className="py-[10px] pl-15 md:w-[368px] px-3 bg-gray-100 rounded-xs flex w-full">
                         <span className=" text-base font-semibold">Username : </span>
-                        <span className="text-center ml-15">{data.username}</span>
+                        <span className="text-center ml-15">{data?.username}</span>
                     </div>
                     <div className="py-[10px] pl-15 md:w-[368px] px-3 bg-gray-100 rounded-xs flex w-full">
                         <span className=" text-base font-semibold">Password : </span>
@@ -52,7 +52,7 @@ export default function Profile() {
                     </div>
                     <div className="py-[10px] pl-15 md:w-[368px] px-3 bg-gray-100 rounded-xs flex w-full">
                         <span className=" text-base font-semibold">Role <span className="ml-9">:</span> </span>
-                        <span className="text-center ml-16">{data.role}</span>
+                        <span className="text-center ml-16">{data?.role}</span>
                     </div>
                 </div>
                 <Button onClick={() => router.push("/article")} className="bg-blue-600 md:w-[368px] hover:bg-blue-700 cursor-pointer text-white rounded-lg w-9/10 -mt-4 py-6">

@@ -11,6 +11,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import axiosInstance from "@/lib/axios";
+import Image from "next/image";
 
 const schema = z.object({
     username: z.string().nonempty("Username harus diisi"),
@@ -52,7 +53,7 @@ export const Login = () => {
     return (
         <div className="bg-gray-100 w-full min-h-screen flex justify-center items-center">
             <div className="w-[400px] py-10 px-4 bg-white rounded flex justify-center items-center gap-6 flex-col ">
-                <img src="/images/image.png" className="w-[134px] h-6 " />
+                <Image  width={100} height={100} alt="Logo" src="/images/image.png" className="w-[134px] h-6 " />
                 <form onSubmit={handleSubmit(onSubmit)} className="gap-3 flex flex-col w-full">
                     <div className="flex gap-3">
                         <Label htmlFor="username">Username</Label>

@@ -4,6 +4,7 @@ import { LogOut } from "lucide-react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 export const NavbarDetail = () => {
     const router = useRouter()
@@ -12,7 +13,7 @@ export const NavbarDetail = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <nav className="bg-white md:bg-transparent z-30 h-16 w-full shadow px-5 py-4 flex items-center justify-between">
-                    <img src="/images/image.png" className="h-[22px] w-[122px]" />
+                    <Image src="/images/image.png" width={100} height={100} alt="Logo" className="h-[22px] w-[122px]" />
                     <div className="flex items-center gap-2 justify-center">
                         <div className="bg-blue-200 rounded-full text-lg w-8 h-8 text-center">J</div>
                         <p className="underline text-black hidden md:block">James Dean</p>

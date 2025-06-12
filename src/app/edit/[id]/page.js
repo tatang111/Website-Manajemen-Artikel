@@ -182,7 +182,8 @@ export default function CreateArticle(paramsPromise) {
                             />
                             <div className="w-32 h-32 border-2 border-dashed border-gray-400 rounded-lg flex items-center justify-center">
                                 {preview ? (
-                                    <img
+                                    <Image
+                                        width={100} height={100} 
                                         src={preview}
                                         alt="Preview"
                                         className="w-full h-full object-cover rounded-lg"
@@ -256,7 +257,7 @@ export default function CreateArticle(paramsPromise) {
                 )}
                 <div className="flex mt-4 justify-end gap-3 text-black mb-3">
                     <Button disabled={isSubmitting} type="button" onClick={() => router.push("/article")} className="bg-white hover:bg-white shadow cursor-pointer text-black">Cancel</Button>
-                    <Button disabled={isSubmitting} type="button" onClick={() => router.push(`/preview/${id}`)}  className="bg-slate-200 hover:bg-slate-300 shadow cursor-pointer text-black">Preview</Button>
+                    <Button disabled={isSubmitting} type="button" onClick={() => router.push(`/preview/${id}`)} className="bg-slate-200 hover:bg-slate-300 shadow cursor-pointer text-black">Preview</Button>
                     <Button type="submit" disabled={isSubmitting} className="bg-blue-600 hover:bg-blue-700 shadow cursor-pointer text-white">{isSubmitting ? <Loader2 /> : "Upload"}</Button>
                 </div>
             </form>

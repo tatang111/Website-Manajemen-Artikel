@@ -152,7 +152,7 @@ export const CreateArticle = ({ setIsCreate }) => {
                             />
                             <div className="w-32 h-32 border-2 border-dashed border-gray-400 rounded-lg flex items-center justify-center">
                                 {preview ? (
-                                    <img
+                                    <Image width={100} height={100}
                                         src={preview}
                                         alt="Preview"
                                         className="w-full h-full object-cover rounded-lg"
