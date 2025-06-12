@@ -29,7 +29,7 @@ export default function Category() {
                 setCheckAuth(false)
             }
         }
-    }, [isLoading])
+    }, [isLoading, data, router])
 
 
     if (checkAuth) return <p>Checking auth...</p>

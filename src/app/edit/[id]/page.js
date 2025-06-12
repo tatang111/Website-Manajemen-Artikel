@@ -107,7 +107,7 @@ export default function CreateArticle(paramsPromise) {
 
     useEffect(() => {
         setCategories(uniqCategories)
-    }, [articleCategory])
+    }, [articleCategory, uniqCategories])
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];

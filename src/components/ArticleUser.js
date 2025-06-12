@@ -48,7 +48,7 @@ export default function ArticleUser() {
         if (search !== searchValue) {
             setSearchValue(search)
         }
-    }, [searchParams])
+    }, [searchParams, searchValue])
 
 
     // Debounded search
@@ -57,7 +57,7 @@ export default function ArticleUser() {
         params.set("page", "1")
         params.set("search", debouncedSearch)
         router.push(`?${params.toString()}`)
-    }, [debouncedSearch])
+    }, [debouncedSearch, router, searchParams])
 
     // For handle get the data based on category cause category need an id not a name
     const filterId = categories.filter(c => c.name === category)
@@ -99,7 +99,7 @@ export default function ArticleUser() {
 
     useEffect(() => {
         setCategories(uniqCategories)
-    }, [articleCategory])
+    }, [articleCategory, uniqCategories])
 
     // For handle dynamic pagination
     const totalPages = 6;

@@ -7,6 +7,7 @@ import { NavbarDetail } from "@/components/NavbarDetail"
 import axiosInstance from "@/lib/axios"
 import { isAuthenticated } from "@/lib/useAuth"
 import { useQuery } from "@tanstack/react-query"
+import Image from "next/image"
 import { redirect } from "next/navigation"
 import { use, useEffect, useState } from "react"
 
@@ -58,7 +59,7 @@ export default function Preview(paramsPromise) {
                         day: "numeric"
                     })} - Createed by Admin</h3>
                     <h1 className="text-center font-[600] text-2xl md:text-3xl">{data.title}</h1>
-                    <img src={data.imageUrl || "/images/article2.jpg"} className="rounded-xl w-full md:h-[480px] h-[240px] object-cover" />
+                    <Image width={100} height={100} alt="Article" src={data.imageUrl || "/images/article2.jpg"} className="rounded-xl w-full md:h-[480px] h-[240px] object-cover" />
                     <p>{data.content}</p>
                 </article>
                 <div className="flex flex-col gap-6 pt-10 pb-15 px-5">

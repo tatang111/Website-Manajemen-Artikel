@@ -73,7 +73,7 @@ export const ArticleAdmin = ({ children }) => {
 
     useEffect(() => {
         setCategories(uniqCategories)
-    }, [articleCategory])
+    }, [articleCategory, uniqCategories])
 
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (articleId) => {

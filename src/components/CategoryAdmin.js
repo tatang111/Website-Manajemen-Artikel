@@ -248,7 +248,7 @@ export const CategoryAdmin = () => {
                                                             <DialogTitle>Delete Category</DialogTitle>
                                                         </DialogHeader>
                                                         <p className="text-base mb-4">
-                                                            Delete category "{category.name}"? This will remove it from master data permanently.
+                                                            Delete category {"'"}{category.name}{"'"}? This will remove it from master data permanently.
                                                         </p>
                                                         <DialogFooter className="gap-2 sm:gap-0">
                                                             <DialogClose asChild>

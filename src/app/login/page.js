@@ -75,7 +75,7 @@ export const Login = () => {
                     </div>
                     <Button disabled={isSubmitting} className={`cursor-pointer mt-3 bg-blue-600 hover:bg-blue-700`}>{isSubmitting ? "Login..." : "Login"}</Button>
                 </form>
-                <p>Don't have an account? <a href="/register" className="text-blue-600 underline">Register</a></p>
+                <p>{"Don't have an account?"} <a href="/register" className="text-blue-600 underline">Register</a></p>
             </div>
         </div>
     )
