@@ -37,6 +37,13 @@ export const ArticleAdmin = ({ children }) => {
     const filterId = categories.filter(c => c.name === category)
     let idCategory = filterId.length > 0 ? filterId[0].id : null
 
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set("page", "1")
+        params.set("search", debouncedSearch)
+        router.push(`?${params.toString()}`)
+    }, [debouncedSearch])
+
     // For get all Articles
     const { data, isLoading, error } = useQuery({
         queryKey: ["articles", idCategory, page, isCreate, deletingId, debouncedSearch],
@@ -73,7 +80,7 @@ export const ArticleAdmin = ({ children }) => {
 
     useEffect(() => {
         setCategories(uniqCategories)
-    }, [articleCategory, uniqCategories])
+    }, [articleCategory])
 
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (articleId) => {
@@ -86,6 +93,13 @@ export const ArticleAdmin = ({ children }) => {
             })
         }
     })
+
+    useEffect(() => {
+        const search = searchParams.get("search") || ""
+        if (search !== searchValue) {
+            setSearchValue(search)
+        }
+    }, [searchParams])
 
     const handleDeleteArticle = async (articleId) => {
         setDeletingId(articleId)
@@ -110,7 +124,7 @@ export const ArticleAdmin = ({ children }) => {
     const pageToShow = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
 
     if (error) return <p>{error.message}</p>
-    
+
     return (
         <div className="w-full">
             {children}
@@ -124,7 +138,13 @@ export const ArticleAdmin = ({ children }) => {
                             </div>
                             <div className="border-b border-gray-200" />
                             <div className="flex flex-col sm:flex-row gap-4 p-4 sm:p-6 bg-gray-50 rounded-b-lg justify-between">
-                                <div className="flex flex-col sm:flex-row gap-2 w-full">
+                                <form onSubmit={(e) => {
+                                    e.preventDefault()
+                                    const params = new URLSearchParams(searchParams.toString());
+                                    params.set("search", searchValue);
+                                    params.set("page", "1");
+                                    router.push(`?${params.toString()}`)
+                                }} className="flex flex-col sm:flex-row gap-2 w-full">
                                     <Select value={category} onValueChange={value => {
                                         setCategory(value)
                                         const params = new URLSearchParams(searchParams.toString());
@@ -147,17 +167,17 @@ export const ArticleAdmin = ({ children }) => {
                                     </Select>
                                     <div className="relative w-full">
                                         <Search className="absolute top-1.5 text-gray-500 left-2" />
-                                        <Input 
-                                            name="search" 
-                                            value={searchValue} 
-                                            onChange={e => setSearchValue(e.target.value)} 
-                                            className="pl-10 w-full" 
-                                            placeholder="Search by title" 
+                                        <Input
+                                            name="search"
+                                            value={searchValue}
+                                            onChange={e => setSearchValue(e.target.value)}
+                                            className="pl-10 w-full md:w-50"
+                                            placeholder="Search by title"
                                         />
                                     </div>
-                                </div>
-                                <Button 
-                                    onClick={() => setIsCreate(true)} 
+                                </form>
+                                <Button
+                                    onClick={() => setIsCreate(true)}
                                     className="bg-blue-600 hover:bg-blue-700 cursor-pointer w-full sm:w-auto mt-2 sm:mt-0"
                                 >
                                     + Add Articles
@@ -184,9 +204,9 @@ export const ArticleAdmin = ({ children }) => {
                                                 <TableRow key={article.id} className="bg-gray-50">
                                                     <TableCell className="px-2 sm:px-4">
                                                         <div className="flex justify-center">
-                                                            <Image  
-                                                                className="w-12 h-12 sm:w-15 sm:h-15 rounded-lg" 
-                                                                src={article.imageUrl || "/images/article3.jpg"} 
+                                                            <Image
+                                                                className="w-12 h-12 sm:w-15 sm:h-15 rounded-lg"
+                                                                src={article.imageUrl || "/images/article3.jpg"}
                                                                 width={100} height={100} alt="Logo"
                                                             />
                                                         </div>
@@ -214,8 +234,8 @@ export const ArticleAdmin = ({ children }) => {
                                                             </Link>
                                                             <Dialog>
                                                                 <DialogTrigger asChild className="w-full sm:w-auto">
-                                                                    <Button 
-                                                                        variant="link" 
+                                                                    <Button
+                                                                        variant="link"
                                                                         className="text-red-600 cursor-pointer p-0 sm:px-4 text-xs sm:text-sm"
                                                                     >
                                                                         Delete
@@ -230,19 +250,19 @@ export const ArticleAdmin = ({ children }) => {
                                                                     </DialogHeader>
                                                                     <DialogFooter className="flex flex-col sm:flex-row gap-2 justify-center items-center">
                                                                         <DialogClose asChild>
-                                                                            <Button 
-                                                                                ref={dialogRef} 
-                                                                                variant="outline" 
-                                                                                disabled={article.id === deletingId} 
+                                                                            <Button
+                                                                                ref={dialogRef}
+                                                                                variant="outline"
+                                                                                disabled={article.id === deletingId}
                                                                                 className="w-full sm:w-auto"
                                                                             >
                                                                                 Cancel
                                                                             </Button>
                                                                         </DialogClose>
-                                                                        <Button 
-                                                                            variant="destructive" 
-                                                                            disabled={article.id === deletingId} 
-                                                                            onClick={() => handleDeleteArticle(article.id)} 
+                                                                        <Button
+                                                                            variant="destructive"
+                                                                            disabled={article.id === deletingId}
+                                                                            onClick={() => handleDeleteArticle(article.id)}
                                                                             className="w-full sm:w-auto"
                                                                         >
                                                                             {isPending ? <Loader2 className="animate-spin w-4 h-4" /> : "Delete"}
@@ -262,7 +282,7 @@ export const ArticleAdmin = ({ children }) => {
                         <Pagination className="py-3 bg-gray-50">
                             <PaginationContent>
                                 <PaginationItem>
-                                    <PaginationPrevious 
+                                    <PaginationPrevious
                                         href={`?page=${Math.max(page - 1, 1)}`}
                                         onClick={e => {
                                             e.preventDefault();
@@ -289,7 +309,7 @@ export const ArticleAdmin = ({ children }) => {
                                     </PaginationItem>
                                 ))}
                                 <PaginationItem>
-                                    <PaginationNext 
+                                    <PaginationNext
                                         href={`?page=${Math.min(page + 1, totalPages)}`}
                                         onClick={e => {
                                             e.preventDefault();

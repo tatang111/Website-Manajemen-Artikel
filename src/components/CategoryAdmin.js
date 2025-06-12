@@ -6,7 +6,7 @@ import axiosInstance from "@/lib/axios"
 import { Search } from "lucide-react"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import dayjs from "dayjs"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
@@ -14,6 +14,7 @@ import { Label } from "./ui/label"
 import { toast } from "sonner"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "./ui/pagination"
+import { useDebounce } from "@/lib/useDebounce"
 
 export const CategoryAdmin = () => {
     const [searchValue, setSearchValue] = useState("")
@@ -21,6 +22,7 @@ export const CategoryAdmin = () => {
     const [editCategory, setEditCategory] = useState("")
     const queryClient = useQueryClient()
     const searchParams = useSearchParams();
+    const debouncedSearch = useDebounce(searchValue, 400)
     const page = parseInt(searchParams.get("page")) || 1
     const router = useRouter()
     const dialogRef = useRef()
@@ -32,7 +34,6 @@ export const CategoryAdmin = () => {
                 params: {
                     limit: 10,
                     page: page,
-                    search: searchValue
                 }
             })
             return response.data
@@ -45,6 +46,7 @@ export const CategoryAdmin = () => {
             const response = await axiosInstance.post("/categories", {
                 name: category
             })
+            dialogRef.current.click()
             queryClient.invalidateQueries(["categoryAdmin"])
             toast.success("Success Add Category")
             setCategory("")
@@ -175,7 +177,7 @@ export const CategoryAdmin = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {dataCategories?.data?.map(category => (
+                                {dataCategories?.data?.filter(cate => cate.name.toLowerCase().includes(debouncedSearch.toLowerCase())).map(category => (
                                     <TableRow className="bg-gray-50" key={category.id}>
                                         <TableCell className="text-center px-2 md:px-4">
                                             {category.name}

@@ -7,17 +7,18 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import axiosInstance from "@/lib/axios";
 import { isAuthenticated } from "@/lib/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Article() {
 
     const [checkAuth, setCheckAuth] = useState(false)
+    const router = useRouter()
 
 
     useEffect(() => {
         if (!isAuthenticated()) {
-            redirect("/login")
+            router.push("/login")
         } else {
             setCheckAuth(true)
         }
