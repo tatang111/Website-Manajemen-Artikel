@@ -103,7 +103,7 @@ export default function ArticleUser() {
 
     // For handle dynamic pagination
     const totalPages = 6;
-    const visiblePages = isMobile ? 4 : 2;
+    const visiblePages = isMobile ? 6 : 3;
 
     let startPage = Math.max(1, page - Math.floor(visiblePages / 2))
     let endPage = startPage + visiblePages - 1
