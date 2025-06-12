@@ -25,21 +25,20 @@ Website ini merupakan platform manajemen artikel untuk kebutuhan admin dan pengg
  - Version Control: Gunakan Git dan GitHub
 
 🏗️ Struktur Folder
-.
-├── app/                        # Halaman utama & page
-│   ├── page.tsx
-|    |-- ...
-├── components/                # Komponen UI 
-│   ├── CategoryAdmin.tsx
-│   ├── NavbarAdmin.tsx
-│   └── ...
-├── lib/                       # Utils dan konfigurasi (axios, hooks)
-│   ├── axios.ts
-│   └── useDebounce.ts
-├── public/                    # File statis
-├── styles/                    # Styling global 
-├── README.md
-env.local => NEXT_PUBLIC_API_URL =https://test-fe.mysellerpintar.com/api
+ - ├── app/                        # Halaman utama & page
+ - │   ├── page.tsx
+ - |    |-- ...
+ - ├── components/                # Komponen UI 
+ - │   ├── CategoryAdmin.tsx
+ - │   ├── NavbarAdmin.tsx
+ - │   └── ...
+ - ├── lib/                       # Utils dan konfigurasi (axios, hooks)
+ - │   ├── axios.ts
+ - │   └── useDebounce.ts
+ - ├── public/                    # File statis
+ - ├── styles/                    # Styling global 
+ - ├── README.md
+ - env.local => NEXT_PUBLIC_API_URL =https://test-fe.mysellerpintar.com/api
 
 ⚙️ Fitur Admin
  - Login sebagai admin
