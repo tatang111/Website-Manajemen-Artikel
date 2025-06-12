@@ -42,15 +42,15 @@ Website ini merupakan platform manajemen artikel untuk kebutuhan admin dan pengg
 env.local => NEXT_PUBLIC_API_URL =https://test-fe.mysellerpintar.com/api
 
 ⚙️ Fitur Admin
-Login sebagai admin
-Tambah/Edit/Hapus kategori
-Tambah/Edit/Hapus artikel
-Dialog konfirmasi sebelum hapus
-Pagination otomatis (berbasis total data)
-Search (dengan debounce)
+ - Login sebagai admin
+ - Tambah/Edit/Hapus kategori
+ - Tambah/Edit/Hapus artikel
+ - Dialog konfirmasi sebelum hapus
+ - Pagination otomatis (berbasis total data)
+ - Search (dengan debounce)
 
 📚 Catatan 
-Menggunakan React Query (TanStack) untuk fetching & caching data.
-Pagination dikendalikan via URL query (?page=...) dan useSearchParams.
-Dialog dikendalikan menggunakan @radix-ui/react-dialog (via shadcn/ui).
-Komponen modular dan reusable.
+ # Menggunakan React Query (TanStack) untuk fetching & caching data.
+ # Pagination dikendalikan via URL query (?page=...) dan useSearchParams.
+ # Dialog dikendalikan menggunakan @radix-ui/react-dialog (via shadcn/ui).
+ # Komponen modular dan reusable.
