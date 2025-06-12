@@ -50,7 +50,7 @@ env.local => NEXT_PUBLIC_API_URL =https://test-fe.mysellerpintar.com/api
  - Search (dengan debounce)
 
 📚 Catatan 
- # Menggunakan React Query (TanStack) untuk fetching & caching data.
- # Pagination dikendalikan via URL query (?page=...) dan useSearchParams.
- # Dialog dikendalikan menggunakan @radix-ui/react-dialog (via shadcn/ui).
- # Komponen modular dan reusable.
+ - Menggunakan React Query (TanStack) untuk fetching & caching data.
+ - Pagination dikendalikan via URL query (?page=...) dan useSearchParams.
+ - Dialog dikendalikan menggunakan @radix-ui/react-dialog (via shadcn/ui).
+ - Komponen modular dan reusable.
