@@ -22,7 +22,7 @@ Website ini merupakan platform manajemen artikel untuk kebutuhan admin dan pengg
  - Form Validation: Zod + React Hook Form
  - HTTP Client: Axios
  - Other library: Day.js, jwt-decode, lodash
- - Version Control: Gunakan Git dan GitHub
+ - Version Control: Git dan GitHub
 
 🏗️ Struktur Folder
  - ├── app/                        # Halaman utama & page
