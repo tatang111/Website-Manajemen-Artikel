@@ -6,7 +6,7 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axiosInstance from "@/lib/axios"
 import dayjs from "dayjs"
 import { useEffect, useRef, useState } from "react"
@@ -21,7 +21,6 @@ import { DialogTrigger } from "@radix-ui/react-dialog"
 import { toast } from "sonner"
 import Image from "next/image"
 
-const queryClient = new QueryClient()
 export const ArticleAdmin = ({ children }) => {
     const [isCreate, setIsCreate] = useState(false)
     const [category, setCategory] = useState("")
@@ -31,6 +30,7 @@ export const ArticleAdmin = ({ children }) => {
     const searchParams = useSearchParams()
     const dialogRef = useRef()
     const router = useRouter()
+    const queryClient =  useQueryClient()
     const debouncedSearch = useDebounce(searchValue, 400)
     const page = parseInt(searchParams.get("page")) || 1
 

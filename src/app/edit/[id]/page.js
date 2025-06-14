@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import Image from "@tiptap/extension-image"
+import {Image as TiptapImage }  from "@tiptap/extension-image"
 import Placeholder from "@tiptap/extension-placeholder"
 import TextAlign from "@tiptap/extension-text-align"
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,7 @@ import axiosInstance from "@/lib/axios"
 import { useQuery } from "@tanstack/react-query"
 import _ from "lodash"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 const schema = z.object({
     title: z.string().nonempty("Please enter title").min(5, "Minimal 5 character"),
@@ -35,7 +36,7 @@ export default function CreateArticle(paramsPromise) {
     const editor = useEditor({
         extensions: [
             StarterKit,
-            Image,
+            TiptapImage,
             Placeholder.configure({
                 placeholder: "Type a content...",
             }),
@@ -107,7 +108,7 @@ export default function CreateArticle(paramsPromise) {
 
     useEffect(() => {
         setCategories(uniqCategories)
-    }, [articleCategory, uniqCategories])
+    }, [articleCategory])
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -183,7 +184,8 @@ export default function CreateArticle(paramsPromise) {
                             <div className="w-32 h-32 border-2 border-dashed border-gray-400 rounded-lg flex items-center justify-center">
                                 {preview ? (
                                     <Image
-                                        width={100} height={100} 
+                                        width={100}
+                                        height={100}
                                         src={preview}
                                         alt="Preview"
                                         className="w-full h-full object-cover rounded-lg"

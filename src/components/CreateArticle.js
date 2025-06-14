@@ -75,7 +75,7 @@ export const CreateArticle = ({ setIsCreate }) => {
 
     useEffect(() => {
         setCategories(uniqCategories)
-    }, [articleCategory, uniqCategories])
+    }, [articleCategory])
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
