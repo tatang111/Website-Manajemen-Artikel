@@ -2,7 +2,7 @@
 Website ini merupakan platform manajemen artikel untuk kebutuhan admin dan pengguna, dibangun menggunakan Next.js, React, TanStack Query, Shadcn UI, Zod + React Hook Form, dan Tailwind CSS, serta terhubung ke backend API untuk operasi CRUD data artikel dan kategori.
 
 ## 🚀 Live Demo
-🔗 [Lihat di Vercel](https://chill-cinema-fe3-showcases.vercel.app/)
+🔗 [Lihat di Vercel](https://website-manajemen-artikel-sgeu.vercel.app/register)
 
 🚀 Fitur Utama
  - Sistem login/registrasi pengguna biasa / admin
