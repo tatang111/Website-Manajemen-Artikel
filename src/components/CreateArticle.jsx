@@ -7,7 +7,7 @@ import { Input } from "./ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import Image from "@tiptap/extension-image"
+import Image from 'next/image'
 import Placeholder from "@tiptap/extension-placeholder"
 import TextAlign from "@tiptap/extension-text-align"
 import { Button } from "./ui/button"
@@ -20,9 +20,9 @@ import { toast } from "sonner"
 
 const schema = z.object({
     title: z.string().nonempty("Please enter title").min(5, "Minimal 5 character"),
-    image: z.any().refine(file => file instanceof File, { message: "Thumbnail is required" }),
+    // image: z.any().refine(file => file instanceof File, { message: "Thumbnail is required" }),
     description: z.string().nonempty("Please enter description").min(20, "Description at least 20 characters"),
-    category: z.enum(["Technology", "Tips and Trick", "Trump", "Tutorial", "Programming"], { required_error: "Pilih Select Category" })
+    category: z.string().nonempty("Pilih Select Category")
 })
 
 export const CreateArticle = ({ setIsCreate }) => {
@@ -72,6 +72,13 @@ export const CreateArticle = ({ setIsCreate }) => {
     }))
     const uniqCategories = _.uniqBy(dataCategories, "id")
 
+    const { data: realCategory } = useQuery({
+        queryKey: ["category"],
+        queryFn: async () => {
+            const { data } = await axiosInstance.get("/categories")
+            return data
+        }
+    })
 
     useEffect(() => {
         setCategories(uniqCategories)
@@ -103,17 +110,18 @@ export const CreateArticle = ({ setIsCreate }) => {
         }
     }
 
+
     const onSubmit = async (data) => {
         try {
-            const imageUrl = await handleUploadImage(data.image)
+            // const imageUrl = await handleUploadImage(data.image)
 
-            let idCategory = data.category === "Techology" ? "44583b3b-0095-474d-89d5-739dfb8c7659" : "694a2c68-dc31-4002-b435-43fff3263494"
+            let idCategory = realCategory.data.find(c => c.name === data.category).id
 
             const response = await axiosInstance.post("/articles", {
                 title: data.title,
                 content: data.description,
                 categoryId: idCategory,
-                imageUrl: imageUrl
+                imageUrl: null
             })
 
             toast.success("Create Article Success")
@@ -139,7 +147,7 @@ export const CreateArticle = ({ setIsCreate }) => {
                         </div>
                     </div>
                 )}
-                <div className="grid h-47 create-movie-image-upload w-20">
+                {/* <div className="grid h-47 create-movie-image-upload w-20">
                     <h4 className="text-base font-[500]">Thumbnails</h4>
                     <div className="flex flex-col mb-4 ">
                         <label className="cursor-pointer">
@@ -167,7 +175,7 @@ export const CreateArticle = ({ setIsCreate }) => {
                         </label>
                     </div>
                     {errors.image && <span className="text-red-500 text-sm w-3/1">{errors.image.message}</span>}
-                </div>
+                </div> */}
                 <div className="grid gap-3">
                     <Label htmlFor="title">Title</Label>
                     <Input id="title" disabled={isSubmitting} name="title" {...register("title")} placeholder="Input title" />

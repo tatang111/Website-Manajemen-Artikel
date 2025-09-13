@@ -4,7 +4,8 @@ const nextConfig = {
         domains: [
             's3.sellerpintar.com',
             'another-domain.com',
-            'cdn.example.com'
+            'cdn.example.com',
+            'ydayuhfahclpulakvoxa.supabase.co'
         ],
     }
 };

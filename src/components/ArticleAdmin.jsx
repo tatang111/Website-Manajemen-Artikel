@@ -30,7 +30,7 @@ export const ArticleAdmin = ({ children }) => {
     const searchParams = useSearchParams()
     const dialogRef = useRef()
     const router = useRouter()
-    const queryClient =  useQueryClient()
+    const queryClient = useQueryClient()
     const debouncedSearch = useDebounce(searchValue, 400)
     const page = parseInt(searchParams.get("page")) || 1
 
@@ -206,7 +206,7 @@ export const ArticleAdmin = ({ children }) => {
                                                         <div className="flex justify-center">
                                                             <Image
                                                                 className="w-12 h-12 sm:w-15 sm:h-15 rounded-lg"
-                                                                src={article.imageUrl || "/images/article3.jpg"}
+                                                                src={article.imageUrl || "/images/article2.jpg"}
                                                                 width={100} height={100} alt="Logo"
                                                             />
                                                         </div>
