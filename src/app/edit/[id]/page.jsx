@@ -27,25 +27,21 @@ import { useQuery } from "@tanstack/react-query";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { supabase } from "@/lib/supabaseClient";
 
 const schema = z.object({
   title: z
     .string()
     .nonempty("Please enter title")
     .min(5, "Minimal 5 character"),
-//   image: z
-//     .any()
-//     .refine((file) => file instanceof File, {
-//       message: "Thumbnail is required",
-//     }),
+  image: z.any().refine((file) => file instanceof File, {
+    message: "Thumbnail is required",
+  }),
   description: z
     .string()
     .nonempty("Please enter description")
     .min(20, "Description at least 20 characters"),
-  category: z.enum(
-    ["Technology", "Tips and Trick", "Trump", "Tutorial", "Programming"],
-    { required_error: "Pilih Select Category" }
-  ),
+  category: z.string().nonempty("Pilih Select Category"),
 });
 
 export default function CreateArticle(paramsPromise) {
@@ -163,33 +159,39 @@ export default function CreateArticle(paramsPromise) {
 
   const handleUploadImage = async (file) => {
     try {
-      const formData = new FormData();
-      formData.append("image", file);
+      const fileName = `${Date.now()}-${file.name}`;
 
-      const response = await axiosInstance.post("/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      return response.data.imageUrl;
+      const { data, error } = await supabase.storage
+        .from("images")
+        .upload(fileName, file);
+
+      if (error) throw error;
+
+      const { data: publicUrlData } = supabase.storage
+        .from("images")
+        .getPublicUrl(fileName);
+
+      return publicUrlData.publicUrl;
     } catch (error) {
       console.log(error.message);
     }
   };
 
+
+
   const onSubmit = async (data) => {
     try {
-    //   const imageUrl = await handleUploadImage(data.image);
+        const imageUrl = await handleUploadImage(data.image);
 
       let idCategory = realCategory.data.find(
         (c) => c.name === data.category
       ).id;
 
-      const response = await axiosInstance.put("/articles", {
+      const response = await axiosInstance.put(`/articles/${id}`, {
         title: data.title,
         content: data.description,
         categoryId: idCategory,
-        imageUrl: null,
+        imageUrl: imageUrl,
       });
 
       router.push("/article");
@@ -219,7 +221,7 @@ export default function CreateArticle(paramsPromise) {
             </div>
           </div>
         )}
-        {/* <div className="grid h-47 create-movie-image-upload w-20">
+         <div className="grid h-47 create-movie-image-upload w-20">
           <h4 className="text-base font-[500]">Thumbnails</h4>
           <div className="flex flex-col mb-4 ">
             <label className="cursor-pointer">
@@ -255,7 +257,7 @@ export default function CreateArticle(paramsPromise) {
               {errors.image.message}
             </span>
           )}
-        </div> */}
+        </div> 
         <div className="grid gap-3">
           <Label htmlFor="title">Title</Label>
           <Input

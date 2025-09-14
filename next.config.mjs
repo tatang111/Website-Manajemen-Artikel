@@ -5,7 +5,8 @@ const nextConfig = {
             's3.sellerpintar.com',
             'another-domain.com',
             'cdn.example.com',
-            'ydayuhfahclpulakvoxa.supabase.co'
+            'ydayuhfahclpulakvoxa.supabase.co',
+            'gwbdrcbuwabtfbsegmej.supabase.co'
         ],
     }
 };
