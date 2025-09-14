@@ -21,7 +21,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import { Button } from "./ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axiosInstance from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import _ from "lodash";
 import PreviewArticle from "./PreviewArticle";
 import { toast } from "sonner";
@@ -45,6 +45,7 @@ export const CreateArticle = ({ setIsCreate }) => {
   const [wordCount, setWordCount] = useState(0);
   const [categories, setCategories] = useState([]);
   const [seePreview, setSeePreview] = useState(false);
+  const queryClient = useQueryClient()
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -153,6 +154,7 @@ export const CreateArticle = ({ setIsCreate }) => {
         imageUrl: imageUrl,
       });
 
+      queryClient.invalidateQueries({ queryKey: ["getCategory"] })
       toast.success("Create Article Success");
       setIsCreate(false);
     } catch (error) {

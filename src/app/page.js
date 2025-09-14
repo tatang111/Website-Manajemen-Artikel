@@ -1,18 +1,15 @@
-"use client"
-
-import { Input } from "@/components/ui/input";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import Head from "next/head";
 
 export default function Home() {
-
-  useEffect(() => {
-    redirect("/register")
-  }, [])
+  redirect("/register");
 
   return (
-    <div className="">
+    <>
+      
+      <div className="">
         page
-    </div>
+      </div>
+    </>
   );
 }
